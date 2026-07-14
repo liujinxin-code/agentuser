@@ -1,5 +1,6 @@
 using AgentUserSystem.Application.Abstractions;
 using AgentUserSystem.Application.Auth;
+using AgentUserSystem.Application.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,10 +30,11 @@ public sealed class AuthController(IAuthService authService) : ApiControllerBase
     /// </summary>
     [HttpPost("login")]
     [AllowAnonymous]
-    public async Task<IActionResult> Login(LoginRequest request, CancellationToken cancellationToken)
+    public async Task<Result<TokenResponse>> Login(LoginRequest request, CancellationToken cancellationToken)
     {
         var result = await authService.LoginAsync(request, cancellationToken);
-        return result.Succeeded ? Ok(result.Value) : Unauthorized(new { message = result.Error });
+        // return result.Succeeded ? Ok(result.Value) : Unauthorized(new { message = result.Error });
+        return result;
     }
 
     /// <summary>
