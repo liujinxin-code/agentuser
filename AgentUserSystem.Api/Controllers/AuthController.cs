@@ -67,7 +67,7 @@ public sealed class AuthController(IAuthService authService) : ApiControllerBase
     {
         var authorization = Request.Headers.Authorization.ToString();
         const string prefix = "Bearer ";
-        //测试分支提交
+        //测试分支提交 123
         //[xx.length..]等同于substring(xx.leng) 从xx的最后一位截取到字符串末尾
         return authorization.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)
             ? authorization[prefix.Length..].Trim()
