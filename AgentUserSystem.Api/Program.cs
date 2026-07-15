@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using AgentUserSystem.Api.RateLimiting;
+using AgentUserSystem.Api.SlidingRateLimiting;
 using AgentUserSystem.Application;
 using AgentUserSystem.Application.Abstractions;
 using AgentUserSystem.Application.AutofacModules;
@@ -147,6 +148,7 @@ try
 
     builder.Services.AddAuthorization();
     builder.Services.AddUserPathRateLimiting(builder.Configuration);
+    builder.Services.AddSlidingUserPathRateLimiting(builder.Configuration);
 
     // 注册应用层框架服务：AutoMapper、FluentValidation 等。
     builder.Services.AddApplication();
@@ -170,6 +172,7 @@ try
     // 顺序很重要：先认证，再授权，最后映射控制器。
     app.UseAuthentication();
     app.UseUserPathRateLimiting();
+    app.UseSlidingUserPathRateLimiting();
     app.UseAuthorization();
     app.MapControllers();
     app.MapGet("/", () => Results.Redirect("/swagger"));
